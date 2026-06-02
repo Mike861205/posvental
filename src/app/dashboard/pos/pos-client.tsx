@@ -493,6 +493,9 @@ export function POSClient({
             <button disabled={loading} className="w-full bg-gradient-to-r from-emerald-500 to-emerald-600 py-2.5 rounded-lg font-semibold">
               {loading ? "Abriendo..." : "Abrir caja"}
             </button>
+            <button type="button" onClick={() => router.back()} className="w-full py-2.5 rounded-lg font-semibold border border-white/20 text-white/70 hover:bg-white/5 transition">
+              Regresar
+            </button>
           </form>
         </Modal>
       )}
