@@ -1,41 +1,36 @@
-import Link from "next/link";
+import Image from "next/image";
+import { cache } from "react";
 import { requireSession } from "@/lib/session";
+import { prisma } from "@/lib/prisma";
 import { LogoutButton } from "./logout-button";
-import { LayoutDashboard, Users, CreditCard, Package, Settings, ReceiptText } from "lucide-react";
+import { SidebarNav } from "@/components/sidebar-nav";
 
-const nav = [
-  { href: "/dashboard", label: "Dashboard", Icon: LayoutDashboard },
-  { href: "/dashboard/members", label: "Miembros", Icon: Users },
-  { href: "/dashboard/plans", label: "Planes", Icon: Package },
-  { href: "/dashboard/subscriptions", label: "Suscripciones", Icon: CreditCard },
-  { href: "/dashboard/payments", label: "Pagos", Icon: ReceiptText },
-  { href: "/dashboard/settings", label: "Configuración", Icon: Settings },
-];
+// Cached so other server components in the same request don't re-query
+const getTenant = cache(async (tenantId: string) =>
+  prisma.tenant.findUnique({ where: { id: tenantId }, select: { logoUrl: true } })
+);
 
-export default async function DashLayout({ children }: { children: React.ReactNode }) {
+export default async function DashLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   const session = await requireSession();
+  const tenant = await getTenant(session.tenantId);
+  const logoUrl = tenant?.logoUrl ?? null;
   return (
     <div className="min-h-screen flex bg-slate-50">
       <aside className="w-64 bg-white border-r border-slate-200 flex flex-col">
         <div className="px-6 py-5 border-b border-slate-200">
           <div className="flex items-center gap-2">
-            <div className="w-9 h-9 rounded-xl bg-gradient-violet" />
+            {logoUrl ? (
+              <Image src={logoUrl} alt="Logo" width={36} height={36} className="w-9 h-9 rounded-xl object-cover" />
+            ) : (
+              <Image src="/logos/posexercise-logo.png" alt="Logo posexercise.com" width={36} height={36} className="w-9 h-9 rounded-xl object-cover" />
+            )}
             <div>
-              <p className="font-semibold leading-tight">Posvental</p>
+              <p className="font-semibold leading-tight">posexercise.com</p>
               <p className="text-xs text-slate-500">{session.tenantName}</p>
             </div>
           </div>
         </div>
-        <nav className="flex-1 p-3 space-y-1">
-          {nav.map(({ href, label, Icon }) => (
-            <Link
-              key={href} href={href}
-              className="flex items-center gap-3 px-3 py-2 rounded-xl text-sm text-slate-700 hover:bg-slate-100"
-            >
-              <Icon size={18} /> {label}
-            </Link>
-          ))}
-        </nav>
+        <SidebarNav />
         <div className="p-3 border-t border-slate-200">
           <p className="text-xs text-slate-500 px-2 mb-2">{session.user?.email}</p>
           <LogoutButton />

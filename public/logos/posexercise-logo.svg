@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">posexercise.com</title>
+  <desc id="desc">Logo de posexercise.com</desc>
+  <defs>
+    <linearGradient id="brand" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#5B21B6" />
+      <stop offset="50%" stop-color="#DB2777" />
+      <stop offset="100%" stop-color="#F97316" />
+    </linearGradient>
+    <linearGradient id="dark" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0F172A" />
+      <stop offset="100%" stop-color="#1E293B" />
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="512" height="512" rx="96" fill="white" />
+  <circle cx="256" cy="220" r="146" fill="none" stroke="url(#brand)" stroke-width="24" opacity="0.95" />
+  <rect x="220" y="250" width="220" height="144" rx="18" fill="url(#dark)" />
+  <rect x="242" y="270" width="176" height="102" rx="12" fill="#E2E8F0" />
+  <rect x="258" y="286" width="74" height="50" rx="10" fill="url(#brand)" />
+  <line x1="342" y1="292" x2="390" y2="292" stroke="#64748B" stroke-width="10" stroke-linecap="round" />
+  <line x1="342" y1="312" x2="382" y2="312" stroke="#94A3B8" stroke-width="10" stroke-linecap="round" />
+  <line x1="342" y1="332" x2="372" y2="332" stroke="#CBD5E1" stroke-width="10" stroke-linecap="round" />
+  <circle cx="328" cy="375" r="10" fill="#E2E8F0" />
+  <path d="M140 338c22-62 62-100 110-108-20 30-14 64 6 89-30 8-54 24-82 54z" fill="url(#brand)" />
+  <path d="M165 236c22 0 37 15 37 35s-15 35-37 35-37-15-37-35 15-35 37-35z" fill="#0B173B" />
+  <path d="M102 255c26-31 62-41 88-27-27 7-43 28-55 52-9 19-18 35-40 44 3-27 4-43 7-69z" fill="#0B173B" />
+  <text x="256" y="466" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="44" font-weight="700" fill="url(#brand)">posexercise.com</text>
+</svg>

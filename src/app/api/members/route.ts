@@ -5,6 +5,7 @@ import { requireTenantId } from "@/lib/session";
 
 const schema = z.object({
   fullName: z.string().min(2),
+  photoUrl: z.string().optional().nullable(),
   email: z.string().email().optional().or(z.literal("")),
   phone: z.string().optional(),
   birthDate: z.string().optional(),
@@ -25,10 +26,11 @@ export async function POST(req: Request) {
   const body = await req.json();
   const parsed = schema.safeParse(body);
   if (!parsed.success) return NextResponse.json({ error: "Datos inválidos" }, { status: 400 });
-  const { fullName, email, phone, birthDate, notes } = parsed.data;
+  const { fullName, photoUrl, email, phone, birthDate, notes } = parsed.data;
   const member = await prisma.member.create({
     data: {
       tenantId, fullName,
+      photoUrl: photoUrl || null,
       email: email || null,
       phone: phone || null,
       birthDate: birthDate ? new Date(birthDate) : null,

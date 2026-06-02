@@ -7,8 +7,12 @@ export default async function SettingsPage() {
   const t = await prisma.tenant.findUnique({ where: { id: tenantId } });
   if (!t) return null;
   return <SettingsClient tenant={{
-    name: t.name, city: t.city, phone: t.phone,
+    name: t.name,
+    city: t.city ?? "",
+    phone: t.phone ?? "",
     currency: t.currency,
+    logoUrl: t.logoUrl ?? null,
+    warnDaysBeforeExpiry: t.warnDaysBeforeExpiry,
     hasStripe: !!t.stripeSecretKey,
     stripePublicKey: t.stripePublicKey ?? "",
     hasMP: !!t.mpAccessToken,
