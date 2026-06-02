@@ -3,11 +3,12 @@ module.exports = {
     {
       name: "posexercise",
       cwd: "/var/www/posvental",
-      script: "npm",
-      args: "run start -- -p 3002",
+      script: "node_modules/.bin/next",
+      args: "start -p 3002",
       env: {
         NODE_ENV: "production",
         PORT: "3002",
+        NODE_OPTIONS: "--max-old-space-size=512",
       },
       instances: 1,
       exec_mode: "fork",
