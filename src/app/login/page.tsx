@@ -19,14 +19,22 @@ function LoginForm() {
     const fd = new FormData(e.currentTarget);
     const email = fd.get("email");
     const password = fd.get("password");
-    const res = await signIn("credentials", {
-      email: typeof email === "string" ? email : "",
-      password: typeof password === "string" ? password : "",
-      redirect: false,
-    });
-    setLoading(false);
-    if (res?.error) { setErr("Credenciales inválidas"); return; }
-    router.push("/dashboard");
+    try {
+      const res = await signIn("credentials", {
+        email: typeof email === "string" ? email : "",
+        password: typeof password === "string" ? password : "",
+        redirect: false,
+      });
+      setLoading(false);
+      if (res?.error) {
+        setErr("Credenciales inválidas");
+        return;
+      }
+      router.push("/dashboard");
+    } catch {
+      setLoading(false);
+      setErr("Error interno al iniciar sesión. Intenta de nuevo en unos segundos.");
+    }
   }
 
   return (
@@ -82,6 +90,11 @@ function LoginForm() {
           {sp?.get("registered") && (
             <p className="mt-3 rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2 text-emerald-700 text-sm">
               Cuenta creada correctamente. Ya puedes iniciar sesión.
+            </p>
+          )}
+          {sp?.get("blocked") && (
+            <p className="mt-3 rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-rose-700 text-sm">
+              Tu tenant está bloqueado temporalmente. Contacta al administrador del sistema.
             </p>
           )}
 

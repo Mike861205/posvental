@@ -24,7 +24,8 @@ export async function POST(req: Request) {
     "image/webp": "webp", "image/gif": "gif",
   };
   const ext = extMap[file.type] ?? "png";
-  const filename = `${tenantId}.${ext}`;
+  // Use a unique filename per upload to prevent stale image cache in the dashboard sidebar.
+  const filename = `${tenantId}-${Date.now()}.${ext}`;
 
   const uploadDir = path.join(process.cwd(), "public", "logos");
   await mkdir(uploadDir, { recursive: true });

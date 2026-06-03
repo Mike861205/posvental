@@ -17,6 +17,17 @@ model Tenant {
   slug      String   @unique
   createdAt DateTime @default(now())
 
+  // Control del sistema (superadmin)
+  isBlocked       Boolean   @default(false)
+  blockedAt       DateTime?
+  blockReason     String?
+  superadminNotes String?
+  accessUntil     DateTime?
+  monthlyFee      Decimal?  @db.Decimal(10, 2)
+  billingMethod   SuperadminBillingMethod @default(TRANSFER)
+  lastPaidAt      DateTime?
+  paidCycles      Int       @default(0)
+
   // Pagos / configuración
   stripeSecretKey      String?
   stripePublicKey      String?
@@ -37,6 +48,26 @@ model Tenant {
   cashRegisters CashRegister[]
   cashMovements CashMovement[]
   posSales      POSSale[]
+  billingPayments TenantBillingPayment[]
+}
+
+enum SuperadminBillingMethod {
+  TRANSFER
+  STRIPE
+}
+
+model TenantBillingPayment {
+  id        String   @id @default(cuid())
+  tenantId  String
+  tenant    Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  amount    Decimal  @db.Decimal(10, 2)
+  method    SuperadminBillingMethod @default(TRANSFER)
+  paidAt    DateTime @default(now())
+  markedBy  String?
+  notes     String?
+
+  @@index([tenantId])
+  @@index([paidAt])
 }
 
 enum Role {

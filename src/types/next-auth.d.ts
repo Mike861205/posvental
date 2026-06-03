@@ -5,6 +5,7 @@ declare module "next-auth" {
     tenantId?: string;
     tenantName?: string;
     role?: string;
+    tenantBlocked?: boolean;
   }
 }
 
@@ -13,5 +14,6 @@ declare module "next-auth/jwt" {
     tenantId?: string;
     tenantName?: string;
     role?: string;
+    tenantBlocked?: boolean;
   }
 }
